@@ -72,8 +72,6 @@ namespace WeatherProject.Controllers
         public async Task<IActionResult> Update(int id, Weather weather)
         {
             
-            var weatherToUpdate = await _context.Weathers.FirstOrDefaultAsync(e => e.Id == id);
-
             if (id != weather.Id) return BadRequest();
             
             _context.Entry(weather).State = EntityState.Modified;
@@ -82,7 +80,7 @@ namespace WeatherProject.Controllers
             return NoContent();
         }
 
-        [Authorize]
+        //[Authorize]
         [HttpDelete("id")]
         public async Task<IActionResult> Delete(int id)
         {
