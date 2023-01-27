@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.EntityFrameworkCore;
+using WeatherProject.Auth;
 using WeatherProject.Data;
 using WeatherProject.DTOs;
 using WeatherProject.Models;
@@ -12,18 +13,20 @@ namespace WeatherProject.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
+    //[Authorize]
     public class WeatherController : ControllerBase
     {
         private readonly WeatherDbContext _context;
         private readonly ILogger<WeatherController> _logger;
         private readonly IMapper _mapper;
+        private readonly IAuthManager _authManager;
 
-        public WeatherController(WeatherDbContext context, ILogger<WeatherController> logger, IMapper mapper)
+        public WeatherController(WeatherDbContext context, ILogger<WeatherController> logger, IMapper mapper, IAuthManager authManager)
         {
             _context = context;
             _logger = logger;
             _mapper = mapper;
+            _authManager = authManager;
         }
 
         public string[] Summary = new[]
@@ -40,7 +43,7 @@ namespace WeatherProject.Controllers
 
         }
 
-       // [Authorize]
+        //[Authorize]
         [HttpGet("id")]
         public async Task<IActionResult> GetById(int id)
         {
@@ -71,9 +74,6 @@ namespace WeatherProject.Controllers
         [HttpPut("id")]
         public async Task<IActionResult> Update(int id, Weather weather)
         {
-            
-            var weatherToUpdate = await _context.Weathers.FirstOrDefaultAsync(e => e.Id == id);
-
             if (id != weather.Id) return BadRequest();
             
             _context.Entry(weather).State = EntityState.Modified;
@@ -82,7 +82,7 @@ namespace WeatherProject.Controllers
             return NoContent();
         }
 
-        [Authorize]
+        //[Authorize]
         [HttpDelete("id")]
         public async Task<IActionResult> Delete(int id)
         {

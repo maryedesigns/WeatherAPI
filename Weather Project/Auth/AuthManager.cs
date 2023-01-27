@@ -55,12 +55,6 @@ namespace WeatherProject.Auth
                 new Claim(ClaimTypes.Name, _user.UserName)
             };
 
-            //var roles = await _userManager.GetRolesAsync(_user);
-            //foreach (var role in roles)
-            //{
-            //    claims.Add(new Claim(ClaimTypes.Role, role));
-            //}
-
             return claims;
 
         }
@@ -68,7 +62,7 @@ namespace WeatherProject.Auth
 
         private SigningCredentials GetSigningCredentials() 
         {
-            var Key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("JWTSettings = TokenKey"));
+            var Key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("Jwt = TokenKey"));
            
             return new SigningCredentials(Key, SecurityAlgorithms.HmacSha512);
         }
@@ -76,9 +70,6 @@ namespace WeatherProject.Auth
 
         public async Task<bool> ValidateUser(LoginUser loginUser)
         {
-            //_user = await _userManager.FindByNameAsync(userDTO.Email);
-            //return (_user != null && await _userManager.CheckPasswordAsync(_user, userDTO.Password));
-
             var storedUser = await _userManager.FindByNameAsync(loginUser.Email);
             return (storedUser != null && await _userManager.CheckPasswordAsync(storedUser, loginUser.Password));
         }

@@ -11,7 +11,6 @@ namespace WeatherProject.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [AllowAnonymous]
     public class UserController : ControllerBase
     {
         private readonly UserManager<User> _userManager;

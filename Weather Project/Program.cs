@@ -37,8 +37,8 @@ builder.Services.AddSwaggerGen(opt =>
         Description = "Please enter token",
         Name = "Authorization",
         Type = SecuritySchemeType.Http,
-        BearerFormat = "JWT",
-        Scheme = "bearer"
+        BearerFormat = "Jwt",
+        Scheme = "Bearer"
     });
 
     opt.AddSecurityRequirement(new OpenApiSecurityRequirement
@@ -50,10 +50,7 @@ builder.Services.AddSwaggerGen(opt =>
                 {
                     Type=ReferenceType.SecurityScheme,
                     Id="Bearer"
-                },
-                 Scheme = "0auth2",
-                 Name = "Bearer",
-                 In = ParameterLocation.Header
+                }
             },
             new string[]{}
         }
